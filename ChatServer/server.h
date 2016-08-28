@@ -17,7 +17,6 @@ public:
     ~Server();
     void Start(unsigned int port = 8089);
 
-
 private:
     void sendToAll(const QString& message);
     void sendUserList();

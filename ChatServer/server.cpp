@@ -8,7 +8,7 @@ Server::Server(QObject *parent) : QObject(parent)
 
 Server::~Server()
 {
-
+    freeConnections();
 
     if (server->isListening()) {
         server->close();
@@ -17,6 +17,9 @@ Server::~Server()
     server = NULL;
 }
 
+/* Закрывает все соединения
+ * Очищает список соединений
+ */
 void Server::freeConnections()
 {
     foreach ( QWebSocket* client, clients.keys() ) {
@@ -24,7 +27,8 @@ void Server::freeConnections()
         client->deleteLater();
         client = NULL;
     }
-    clients.clear(); // is it necessary?
+    // clients.clear(); // is it necessary?
+    // it is removed in onDisconnect for every client
 }
 
 /* Запускает сервер
