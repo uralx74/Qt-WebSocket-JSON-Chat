@@ -14,7 +14,9 @@ class Server : public QObject
     Q_OBJECT
 public:
     explicit Server(QObject *parent = 0);
+    ~Server();
     void Start(unsigned int port = 8089);
+    void freeConnections();
 
 private:
     void sendToAll(const QString& message);
@@ -22,7 +24,7 @@ private:
     void sendRequestUsername(QWebSocket* client);
     void sendServiceMessage(const QString& message);
 
-    unsigned int _port;
+    //unsigned int _port;
     QWebSocketServer *server;
     QMap<QWebSocket*, QString> clients;
 
