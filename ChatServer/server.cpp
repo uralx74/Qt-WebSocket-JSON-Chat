@@ -8,27 +8,11 @@ Server::Server(QObject *parent) : QObject(parent)
 
 Server::~Server()
 {
-    freeConnections();
-
     if (server->isListening()) {
         server->close();
     }
     server->deleteLater();
     server = NULL;
-}
-
-/* Закрывает все соединения
- * Очищает список соединений
- */
-void Server::freeConnections()
-{
-    foreach ( QWebSocket* client, clients.keys() ) {
-        client->close();
-        client->deleteLater();
-        client = NULL;
-    }
-    // clients.clear(); // is it necessary?
-    // it is removed in onDisconnect for every client
 }
 
 /* Запускает сервер
@@ -108,7 +92,6 @@ void Server::onReceiveMessage(QString message)
 
     // Парсинг сообщения
     QJsonDocument messageDocument = QJsonDocument::fromJson(message.toUtf8());
-    //qWarning() << doc.isNull();
     QJsonObject messageJson;
     messageJson = messageDocument.object();
 
@@ -133,44 +116,6 @@ void Server::onReceiveMessage(QString message)
         QString answerMessage = QString::fromUtf8(ansewerDocument.toJson(QJsonDocument::Compact));
         sendToAll(answerMessage);
     }
-
-
-    /*
-    QVariantMap map;
-    map["message"] = "test message";
-
-    QByteArray data = QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact);
-    socket->send(data);
-    */
-
-
-    /* QJsonParseError json_error;
-        QJsonDocument parse_doucment = QJsonDocument::fromJson(message, &json_error);
-        if(json_error.error == QJsonParseError::NoError)
-        {
-            if(parse_doucment.isObject())
-            {
-                QJsonObject obj = parse_doucment.object();
-                if(obj.contains("name"))
-                {
-                    QJsonValue name_value = obj.take("name");
-                    if(name_value.isString())
-                    {
-                        name = name_value.toString();
-                    }
-                }
-                if(obj.contains("msg"))
-                {
-                    QJsonValue msg_value = obj.take("msg");
-                    if(msg_value.isString())
-                    {
-                        msg = msg_value.toString();
-                    }
-                }
-            }
-        }
-
-    */
 }
 
 /* Отправляет сообщение всем пользователям
@@ -218,6 +163,5 @@ void Server::sendRequestUsername(QWebSocket* client)
 
         client->sendTextMessage(answerMessage);
     }
-
 }
 

@@ -27,7 +27,7 @@ private:
     QPushButton* sendMessageBtn;
     QPushButton* loginBtn;
     QListWidget* userList;
-
+    QLineEdit* hostEdt;
     QLineEdit* messageEdt;
     QTextEdit* messageBoard;
 

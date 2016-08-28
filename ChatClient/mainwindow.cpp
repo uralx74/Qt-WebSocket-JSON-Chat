@@ -11,26 +11,30 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->setWindowTitle("Client");
 
+    hostEdt = new QLineEdit(this);
+    hostEdt->setGeometry(10,360,480,30);
+    hostEdt->setText("127.0.0.1");
+
     connectBtn = new QPushButton(this);
     connectBtn->setText("Connect");
-    connectBtn->setGeometry(520,10,100,30);
+    connectBtn->setGeometry(510,360,100,30);
     connect(connectBtn, SIGNAL(clicked()), this, SLOT(onConnectBtnClick()));
 
-
-    sendMessageBtn = new QPushButton(this);
-    sendMessageBtn->setGeometry(520,40,100,30);
-    sendMessageBtn->setText("Send");
-    connect(sendMessageBtn, SIGNAL(clicked()), this, SLOT(onSendMessageBtnClick()));
 
     messageEdt = new QLineEdit(this);
     messageEdt->setGeometry(10,320,480,30);
 
+    sendMessageBtn = new QPushButton(this);
+    sendMessageBtn->setGeometry(510,320,100,30);
+    sendMessageBtn->setText("Send");
+    connect(sendMessageBtn, SIGNAL(clicked()), this, SLOT(onSendMessageBtnClick()));
+
     userList = new QListWidget(this);
-    userList->setGeometry(10,10,100,300);
+    userList->setGeometry(510,10,100,300);
 
 
     messageBoard = new QTextEdit(this);
-    messageBoard->setGeometry(120,10,380,300);
+    messageBoard->setGeometry(10,10,480,300);
 
     client = new Client(this);
     connect(client, SIGNAL(receiveMessage(QString, QString)), this, SLOT(onReceiveMessage(QString, QString)));
@@ -43,7 +47,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    delete client;
     delete ui;
 }
 
@@ -51,7 +54,7 @@ MainWindow::~MainWindow()
  */
 void MainWindow::onConnectBtnClick()
 {
-    client->connectSocket();
+    client->connectSocket(hostEdt->text());
 }
 
 /* Слот для кнопки отправки сообщения

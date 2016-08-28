@@ -12,10 +12,9 @@ class Client : public QObject
     Q_OBJECT
 public:
     explicit Client(QObject *parent = 0);
-    void connectSocket(unsigned int port = 8089, QString host = "localhost");
-    //void setUsername(QString username);
-    void sendUsername(QString username);
-    void sendMessage(QString message);
+    void connectSocket(const QString& host = "localhost", unsigned int port = 8089);
+    void sendUsername(const QString& username);
+    void sendMessage(const QString& message);
 
 private:
     unsigned int _port;
@@ -31,7 +30,6 @@ signals:
 
 private slots:
     void onReceiveMessage(QString message);
-    void onConnected();
     void onDisconnected();
 
 public slots:
