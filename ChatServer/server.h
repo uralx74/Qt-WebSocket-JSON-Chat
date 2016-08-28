@@ -16,13 +16,14 @@ public:
     explicit Server(QObject *parent = 0);
     ~Server();
     void Start(unsigned int port = 8089);
-    void freeConnections();
+
 
 private:
     void sendToAll(const QString& message);
     void sendUserList();
     void sendRequestUsername(QWebSocket* client);
     void sendServiceMessage(const QString& message);
+    void freeConnections();
 
     //unsigned int _port;
     QWebSocketServer *server;

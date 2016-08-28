@@ -8,12 +8,6 @@ Server::Server(QObject *parent) : QObject(parent)
 
 Server::~Server()
 {
-    foreach ( QWebSocket* client, clients.keys() ) {
-        client->close();
-        client->deleteLater();
-        client = NULL;
-    }
-    clients.clear(); // is it necessary?
 
 
     if (server->isListening()) {
@@ -21,6 +15,16 @@ Server::~Server()
     }
     server->deleteLater();
     server = NULL;
+}
+
+void Server::freeConnections()
+{
+    foreach ( QWebSocket* client, clients.keys() ) {
+        client->close();
+        client->deleteLater();
+        client = NULL;
+    }
+    clients.clear(); // is it necessary?
 }
 
 /* Запускает сервер

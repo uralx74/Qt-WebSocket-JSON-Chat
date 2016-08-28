@@ -22,8 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    releaseConnections(m_pSocket);
-    server->deleteLater();
+    delete server;
     delete ui;
 }
 
