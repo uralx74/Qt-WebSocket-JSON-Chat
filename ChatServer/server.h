@@ -22,9 +22,7 @@ private:
     void sendUserList();
     void sendRequestUsername(QWebSocket* client);
     void sendServiceMessage(const QString& message);
-    void freeConnections();
 
-    //unsigned int _port;
     QWebSocketServer *server;
     QMap<QWebSocket*, QString> clients;
 
@@ -32,7 +30,6 @@ signals:
     void userConnected(QString username);
     void userDisconnected(QString username);
     void errorOccured(QString errorMessage);
-    //void messageReceived(QString message, QString username);
 
 private slots:
     void onNewConnection();
